@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= getSiteName() %> | <%- defineContent('title') || 'Admin' %></title>
+    <!-- styles -->
+    <%- include(viewPath('layouts/admin/styles')) -%>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Preloader -->
+    <%- include(viewPath('layouts/admin/preloader')) -%>
+
+    <!-- Navbar -->
+    <%- include(viewPath('layouts/admin/navbar')) -%>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <%- include(viewPath('layouts/admin/sidebar')) -%>
+    <!-- Content Wrapper. Contains page content -->
+    <%- body %>
+
+    <!-- /.content-wrapper -->
+    <%- include(viewPath('layouts/admin/copyright')) -%>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<%- include(viewPath('layouts/admin/scripts')) -%>
+</body>
+</html>

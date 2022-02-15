@@ -1,0 +1,89 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><%= translate(req, __filename, 'title', 'Roles') ;%></h1>
+                </div>
+                <div class="col-sm-6 <%= hasPermission(Option['permission'].add_roles) ;%>">
+                    <div class="btn-group float-sm-right">
+                        <a href="/roles/create"
+                           class="btn btn-sm btn-primary"><%= translate(req, __filename, 'create', 'create new Role') ;%></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><%= translate(req, __filename, 'list-title', 'Role list') ;%></h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                           placeholder="search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-center table-bordered">
+                                <tr>
+                                    <td><%= translate(req, __filename, 'table-title', 'Title') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-description', 'Description') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-language', 'Language') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-setting', 'Setting') ;%></td>
+                                </tr>
+                                <% roles.docs.forEach(role => { %>
+                                    <tr>
+                                        <td><a href="#"><%= role.name ;%></a></td>
+                                        <td><%= role.label ;%></td>
+                                        <td><%= role.lang ;%></td>
+                                        <% if (role.name === 'Owner' || role.name === 'Writer'){ %>
+                                            <td>
+                                                <p><%= translate(req, __filename, 'table-default-roles', 'Default Roles') ;%></p>
+                                            </td>
+                                        <% }else { %>
+                                            <td>
+                                                <form action="/roles/<%= role.id ;%>?_method=DELETE&_csrf=<%= req.csrfToken() ;%>"
+                                                      method="post">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="/roles/<%= role.id ;%>/edit"
+                                                           class="btn btn-primary <%= hasPermission(Option['permission'].edit_roles) ;%>"><%= translate(req, __filename, 'table-edit', 'Edit') ;%></a>
+                                                        <button type="submit"
+                                                                class="btn btn-danger <%= hasPermission(Option['permission'].delete_roles) ;%>"><%= translate(req, __filename, 'table-delete', 'Delete') ;%></button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        <% } %>
+                                    </tr>
+                                <% }); %>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <%- include(viewPath('layouts/admin/pagination') ,{ pagination : roles}) %>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<%- include(viewPath('layouts/sweet-alert'), {model:'delete',route:"/roles/"}) %>

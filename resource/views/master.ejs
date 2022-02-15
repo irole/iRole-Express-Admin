@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' gap:; script-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; object-src *; style-src 'self' data: 'unsafe-inline'; img-src 'self' data:; media-src 'self' data:; font-src 'self' data:; connect-src *">
+    <link rel="icon" type="image/x-icon" href="/favicon.png">
+    <title><%= getSiteName() %> | <%- defineContent('title') || 'Admin' %></title>
+    <%- include(viewPath('layouts/styles')) -%>
+    <%- style %>
+</head>
+<body>
+<%- include(viewPath('layouts/header')) -%>
+<%- body %>
+<%- include(viewPath('layouts/footer')) -%>
+
+<%- include(viewPath('layouts/scripts')) -%>
+<%- script %>
+</body>
+</html>

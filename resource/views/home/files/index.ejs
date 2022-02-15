@@ -1,0 +1,115 @@
+<% let imageTypes = ['png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'svg', 'SVG']; %>
+<% let videoTypes = ["mkv", "mp4", "mpeg", "MKV", "MP4", "MPEG"]; %>
+<% let audioTypes = ["MP3", "mp3", "FLAC", "flac", "WAV", "wav"]; %>
+<% let documentTypes = ["doc", "DOC", "docx", "DOCX", "ppt", "PPT", "pptx", "PPTX", "txt", "TXT", "pdf", "PDF"]; %>
+<% let compressTypes = ["rar", "RAR", "zip", "ZIP", "7z", "7Z"]; %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><%= translate(req, __filename, 'title', 'file manager') ;%></h1>
+                </div>
+                <div class="col-sm-6 <%= hasPermission(Option['permission'].add_files) %>">
+                    <div class="btn-group float-sm-right">
+                        <a href="/files/upload"
+                           class="btn btn-sm btn-primary"><%= translate(req, __filename, 'create', 'Upload new File') ;%></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><%= translate(req, __filename, 'list-title', 'File list') ;%></h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                           placeholder="Search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-center table-bordered">
+                                <tr>
+                                    <td><%= translate(req, __filename, 'table-image', 'Image') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-title', 'Title') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-link', 'Link') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-upload-date', 'Upload Date') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-size', 'Size') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-setting', 'Setting') ;%></td>
+                                </tr>
+                                <% files.docs.forEach(file =>{ %>
+                                    <tr>
+                                        <td>
+                                            <% if (imageTypes.includes(file.type)) { %>
+                                                <a href="<%= file.url %>"><img src="<%= file.url %>" width="200px"
+                                                                               height="100px"
+                                                                               alt="<%= file.alt %>"></a>
+                                            <% } else if (videoTypes.includes(file.type)) { %>
+                                                <a href="<%= file.url %>" class="text-dark no-underline" >
+                                                    <i class="fa fa-video fa-7x"></i>
+                                                </a>
+                                            <% } else if (audioTypes.includes(file.type)) { %>
+                                                <a href="<%= file.url %>" class="text-dark no-underline">
+                                                    <i class="fa fa-file-audio fa-7x"></i>
+                                                </a>
+                                            <% }else if (documentTypes.includes(file.type)) { %>
+                                                <a href="<%= file.url %>" class="text-dark no-underline">
+                                                    <i class="fa fa-file fa-7x"></i>
+                                                </a>
+                                            <% }else { %>
+                                                <a href="<%= file.url %>" class="text-dark no-underline">
+                                                    <i class="fa fa-compass fa-7x"></i>
+                                                </a>
+                                            <% } %>
+                                        </td>
+                                        <td><a href="<%= `${siteUrl}${file.url}` %>"><%= file.title %></a></td>
+                                        <td><a href="<%= `${siteUrl}${file.url}` %>"><%= `${siteUrl}${file.url}` %></a></td>
+                                        <td><%= Date(file.createdAt).format("YYYY/MM/DD") %></td>
+                                        <td>  <%= Math.round(file.size / 1024) %> KB </td>
+                                        <td>
+                                            <form action="/files/<%= file._id %>?_csrf=<%= req.csrfToken() %>&_method=DELETE"
+                                                  method="post">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#"
+                                                       class="btn btn-info">copy link</a>
+                                                    <a href="/files/<%= file._id %>/edit"
+                                                       class="btn btn-primary  <%= hasPermission(Option['permission'].add_files) %>"><%= translate(req, __filename, 'table-edit', 'Edit') ;%></a>
+                                                    <button type="submit"
+                                                            class="btn btn-danger <%= hasPermission(Option['permission'].delete_files) %>"><%= translate(req, __filename, 'table-delete', 'Delete') ;%></button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <%- include(viewPath('layouts/admin/pagination') ,{ pagination : files}) %>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<%- include(viewPath('layouts/sweet-alert'), {model:'delete',route:"/files/"}) %>

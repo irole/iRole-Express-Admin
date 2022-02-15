@@ -1,0 +1,112 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><%= translate(req,__filename,'title','Edit Category') %></h3>
+            </div>
+            <form class="form-horizontal" action="/categories/<%= category.id %>?_method=put" method="post">
+                <input type="hidden" name="_csrf" value="<%= req.csrfToken() %>">
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="name"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'category-name','Category Name :') %></label>
+                            <input type="text" class="form-control <%= isValid('name') %>" name="name" id="name"
+                                   placeholder='<%= translate(req,__filename,'category-name-ph','Please Insert Name of Category') %>'
+                                   value="<%= getInputValue('name', category.name) %>">
+                            <div class="invalid-feedback">
+                                <%= showError('name') %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="parent"
+                                   class="control-label font-weight-bold font-weight-bold"><%= translate(req,__filename,'category-parent','Category Parent :') %></label>
+                            <select name="parent" id="parent" class="form-control">
+                                <option value="none"><%= translate(req,__filename,'category-parent-main','Main Category') %></option>
+                                <% categories.forEach(cate => { %>
+                                    <option value="<%= cate.id %>" <%= String(getInputValue('categories', category.parent)) == String(cate.id) ? 'selected' : '' %> >
+                                        <% for (let i = 0; i < cate.categories.length ; i++) { %> &ensp;
+                                        <% } %>
+                                        <%= cate.name %></option>
+                                <% }) %>
+                            </select>
+                            <div class="text-danger">
+                                <%= showError('parent') %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><%= translate(req,__filename,'category-Language','Language :') %></label>
+                        <select name="lang" class="form-control  <%= isValid('lang') %>">
+                            <% req.getLocales().forEach(locale=>{ %>
+                                <option value="<%= locale %>" <%= getInputValue("lang", category.lang) === locale ? 'selected' : '' %>><%= locale %></option>
+                            <% }) %>
+                        </select>
+                        <div class="text-danger">
+                            <%= showError('lang') %>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <div>
+                                <label for="gallery"
+                                       class="control-label font-weight-bold"><%= translate(req,__filename,'category-picture','Picture Gallery :') %></label>
+                            </div>
+                            <button type="button" name="gallery" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#myModal">
+                                <%= translate(req,__filename,'category-picture-gallery','Open Picture Gallery') %>
+                            </button>
+                            <div class="text-danger">
+                                <%= showError('image') %>
+                            </div>
+                            <input type="hidden" id="image" name="image"
+                                   value="<%= getInputValue("image", category.image.id) %>">
+                            <input type="hidden" id="imageUrl" name="imageUrl"
+                                   value="<%= getInputValue("imageUrl", category.image.url) %>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <% if (getInputValue("imageUrl", category.image.url)) { %>
+                            <img class="fluid img-thumbnail" src="<%= getInputValue("imageUrl", category.image.url) %>"
+                                 id="courseImage"
+                                 alt=""
+                                 width="250px"
+                                 height="100px">
+
+                        <% }else { %>
+                            <img class="fluid img-thumbnail" src="<%= getInputValue("imageUrl", category.image.url) %>"
+                                 id="courseImage"
+                                 alt=""
+                                 width="250px"
+                                 height="100px" style="display: none">
+                        <% } %>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="description"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'category-description','description :') %></label>
+                            <textarea rows="5" class="form-control <%= isValid('description') %>" name="description"
+                                      id="description"
+                                      placeholder="<%= translate(req,__filename,'category-description-ph','Please Insert Category Description') %>"><%= getInputValue("description", category.description) %></textarea>
+                            <div class="invalid-feedback">
+                                <%= showError('description') %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit"
+                            class="btn btn-danger"><%= translate(req,__filename,'category-update','update') %>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div><!-- /.container-fluid -->
+</div>
+<%- include(viewPath('layouts/admin/modal'), {images}) %>
+<link rel="stylesheet" href="/css/component-chosen.min.css">
+

@@ -1,0 +1,76 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><%= translate(req, __filename, 'title', 'Permissions') ;%></h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><%= translate(req, __filename, 'list-title', 'Permissions list') ;%></h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                           placeholder="search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-center table-bordered">
+                                <tr>
+                                    <td><%= translate(req, __filename, 'table-title', 'Title') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-description', 'Description') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-group', 'Group') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-title', 'Title') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-setting', 'Setting') ;%></td>
+                                </tr>
+                                <% permissions.docs.forEach(permission => { %>
+                                    <tr>
+                                        <td><%= permission.name %></td>
+                                        <td><%= __(permission.label) %></td>
+                                        <td><%= __(permission.group) %></td>
+                                        <td>
+                                            <!--                    <form action="/admin/users/permissions/<%= permission.id %>?_method=DELETE&_csrf=<%= req.csrfToken() %>" method="post">-->
+                                            <!--                        <div class="btn-group btn-group-sm">-->
+                                            <!--                            <a href="/admin/users/permissions/<%= permission.id %>/edit"-->
+                                            <!--                               class="btn btn-primary">ویرایش</a>-->
+                                            <!--                            <button type="submit" class="btn btn-danger">حذف</button>-->
+                                            <!--                        </div>-->
+                                            <!--                    </form>-->
+                                            <p><%= translate(req, __filename, 'table-default-permission', 'Default Permission') ;%></p>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <%- include(viewPath('layouts/admin/pagination') ,{ pagination : permissions}) %>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

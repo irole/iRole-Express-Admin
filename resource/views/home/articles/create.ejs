@@ -1,0 +1,180 @@
+<!-- Select2 -->
+<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-11 mx-auto mt-2">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"><%= translate(req,__filename,'title','Create New Article') %></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="post" action="/articles/create" novalidate>
+                            <input type="hidden" name="_csrf" value="<%= req.csrfToken() %>">
+                            <div class="card-body">
+                                <% if (getInputValue('image-url')) { %>
+                                    <div class="form-row align-items-center" id="box-image">
+                                        <div class="form-group mx-auto">
+                                            <img src="<%= getInputValue('image-url') %>" id="box-image-url"
+                                                 width="200px"
+                                                 height="200px" alt=""
+                                                 class="border border-dark ">
+                                        </div>
+                                    </div>
+                                <% }else { %>
+                                    <div class="form-row align-items-center d-none" id="box-image">
+                                        <div class="form-group mx-auto">
+                                            <img src="<%= getInputValue('image-url') %>" id="box-image-url"
+                                                 width="200px"
+                                                 height="200px" alt=""
+                                                 class="border border-dark ">
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <hr>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-6">
+                                        <label for="title" class="font-weight-bold"><%= translate(req,__filename,'article-title','Article Title :') %></label>
+                                        <input type="text" name="title" class="form-control <%= isValid('title') %>"
+                                               placeholder="<%= translate(req,__filename,'article-title-ph','Enter Your Title') %>"
+                                               value="<%= getInputValue('title') %>">
+                                        <div class="invalid-feedback">
+                                            <%= showError('title') %>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="image-gallery" class="font-weight-bold"><%= translate(req,__filename,'article-image','Article Image : ') %></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button type="button" name="image-gallery" data-toggle="modal"
+                                                        data-target="#modal-xl" class="btn btn-outline-primary"><%= translate(req,__filename,'article-image-open-gallery','Open gallery') %></button>
+                                            </div>
+                                            <!-- /btn-group -->
+                                            <input type="text" id="coin-box-image-url"
+                                                   class="form-control <%= isValid('image') %>"
+                                                   value="<%= getInputValue('image-url') %>" disabled>
+                                            <div class="invalid-feedback">
+                                                <%= showError('image') %>
+                                            </div>
+                                            <input type="hidden" name="image-url" id="image-url"
+                                                   value="<%= getInputValue('image-url') %>">
+                                            <input type="hidden" name="image" id="coin-box-image-id"
+                                                   value="<%= getInputValue('image') %>">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-12">
+                                        <label><%= translate(req,__filename,'article-category','Category :') %></label>
+                                        <div class="select2-purple ">
+                                            <select class="select2" multiple="multiple" name="categories"
+                                                    data-placeholder="<%= translate(req,__filename,'article-category-ph','Choose Your Tcategory') %>"
+                                                    data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                <% categories.forEach(cate => { %>
+                                                    <option value="<%= cate.id %>" <%= getInputValue('categories').indexOf(cate.id) !== -1 ? 'selected' : '' %>><%= cate.name %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-12">
+                                        <div class="row justify-content-between">
+                                            <label for="body" class="font-weight-bold"><%= translate(req,__filename,'article-description','Description : ') %></label>
+                                        </div>
+                                        <div class="card-body">
+                                        <textarea class="<%= isValid('body') %>" id="summernote"
+                                                  name="body">
+                                            <%- getInputValue('body') %>
+                                        </textarea>
+                                            <div class="invalid-feedback">
+                                                <%= showError('body') %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                    <div class="form-group">
+                                        <label><%= translate(req,__filename,'article-language','Language : ') %></label>
+                                        <select name="lang" class="form-control  <%= isValid('lang') %>">
+                                            <% req.getLocales().forEach(locale=>{ %>
+                                                <option value="<%= locale %>" <%= getInputValue('lang') === locale ? 'selected' : '' %>><%= locale %></option>
+                                            <% }) %>
+                                        </select>
+                                        <div class="text-danger">
+                                            <%= showError('lang') %>
+                                        </div>
+                                    </div>
+                                <hr>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-12">
+                                        <label for="tags" class="font-weight-bold"><%= translate(req,__filename,'article-tags','Tags : ') %></label>
+                                        <input type="text" name="tags" class="form-control <%= isValid('tags') %>"
+                                               placeholder="<%= translate(req,__filename,'article-tag-ph','Enter Your tags') %>"
+                                               value="<%= getInputValue('tags') %>">
+                                        <div class="invalid-feedback">
+                                            <%= showError('tags') %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary"><%= translate(req,__filename,'article-create','Create') %></button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- Summernote -->
+<script src="/plugins/summernote/summernote-bs4.min.js"></script>
+<%- include(viewPath('layouts/admin/summer-note-modal'), {images}) -%>
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    })
+</script>
+<%- include(viewPath('layouts/admin/gallery'), {images}) -%>
+<script>
+    function getImageUrl(id, url) {
+        $("#box-image-url").attr("src", url)
+        $("#box-image").removeClass("d-none");
+        $("#coin-box-image-url").val(url);
+        $("#coin-box-image-id").val(id);
+        $("#image-url").val(url)
+
+    }
+</script>
+
+
+
+

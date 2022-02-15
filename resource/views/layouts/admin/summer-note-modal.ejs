@@ -1,0 +1,71 @@
+<div class="modal fade" id="summer-note-modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <% images.forEach(image=>{ %>
+                        <div class="col-sm-6 col-md-3 mb-3">
+                            <img onclick=setImageUrl('<%= image.url %>','<%= image.alt %>') src='<%= image.url %>'
+                                 alt="<%= image.alt %>" class="fluid img-thumbnail" data-dismiss="modal">
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    function setImageUrl(url, alt) {
+        $('#summernote').summernote('insertImage', url, function ($image) {
+            $image.css('width', 200);
+            $image.attr('alt', alt);
+        });
+    }
+
+    let openGallery = function (context) {
+        let ui = $.summernote.ui;
+
+        // create button
+        let button = ui.button({
+            contents: '<i class="fa fa-images"/> insert image',
+            tooltip: 'insert image',
+            click: function () {
+                $('#summer-note-modal').modal('toggle');
+            }
+        });
+
+        return button.render();   // return button as jquery object
+    }
+    $('#summernote').summernote({
+        height: 250,
+        buttons: {
+            gallery: openGallery
+        },
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['link', ['linkDialogShow', 'unlink']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['mybutton', ['gallery']]
+        ]
+    });
+</script>

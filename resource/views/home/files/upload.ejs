@@ -1,0 +1,43 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-11 mx-auto mt-2">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><%= translate(req,__filename,'title','Upload new File') %></h3>
+                    </div>
+                    <form class="form-horizontal" action="/files/upload?_csrf=<%= req.csrfToken() %>"
+                          method="post"
+                          enctype="multipart/form-data"
+                          novalidate>
+
+                        <div class="row mt-4 mb-5 mx-5">
+                            <!-- <label for="customFile">Custom File</label> -->
+                            <div class="col-8  custom-file">
+                                <input type="file" name="file" class="form-control <%= isValid('file') %>"
+                                       id="customFile">
+                                <label class="custom-file-label"
+                                       for="customFile"><%= translate(req,__filename,'file-choose','choose a file :') %></label>
+                                <div class="text-danger">
+                                    <%= showError('file') %>
+                                </div>
+                            </div>
+                            <div class="col-2 ">
+                                <button type="submit"
+                                        class="btn btn-danger"><%= translate(req,__filename,'file-upload','Upload') %></button>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</div>
+<script>
+    $(function () {
+        bsCustomFileInput.init();
+    });
+</script>

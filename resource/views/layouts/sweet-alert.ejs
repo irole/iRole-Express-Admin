@@ -1,0 +1,59 @@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<% let sweetalert = req.flash('sweetalert');
+if(sweetalert.length) {
+    let data = sweetalert[0];
+%>
+<% if (model === "delete") { %>
+    <script>
+
+        Swal.fire({
+            title: '<%= data.title %>',
+            text: '<%= data.text %>',
+            icon: '<%= data.icon %>',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            timer: '<%= data.boxTime %>',
+            timerProgressBar: true,
+            confirmButtonText: '<%= data.confirmButtonText %>',
+            cancelButtonText: '<%= data.cancelButtonText %>',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<%= route %><%= data.ID %>?_method=DELETE&_csrf=<%= req.csrfToken() %>',
+                    type: "post",
+                    data: {deleteConfirm: true},
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.delete) {
+                            Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Your file has been deleted',
+                                    icon: 'success',
+                                    showConfirmButton: false
+                                }
+                            )
+                            setTimeout(() => {
+                                location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+            } else {
+                location.reload();
+            }
+        })
+    </script>
+<% }else { %>
+    <script>
+        Swal.fire({
+            icon: '<%= data.icon %>',
+            title: '<%= data.title %>',
+            text: '<%= data.text %>',
+            confirmButtonText: '<%= data.button %>',
+            timer: '<%= data.boxTime %>',
+
+        })
+    </script>
+<% } %>
+<% } %>

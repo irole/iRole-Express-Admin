@@ -1,0 +1,88 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><%= translate(req,__filename,'title','Articles')%></h1>
+                </div>
+                <div class="col-sm-6 <%= hasPermission(Option['permission'].create_users) %>">
+                    <div class="btn-group float-sm-right">
+                        <a href="/articles/create"
+                           class="btn btn-sm btn-primary"><%= translate(req,__filename,'create','create new article')%></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><%= translate(req,__filename,'list-title','Articles list')%></h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                           placeholder="search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-center table-bordered">
+                                <tr>
+                                    <td><%= translate(req,__filename,'table-image','image')%></td>
+                                    <td><%= translate(req,__filename,'table-title','title')%></td>
+                                    <td><%= translate(req,__filename,'table-author','author')%></td>
+                                    <td><%= translate(req,__filename,'table-viewCount','view Count')%></td>
+                                    <td><%= translate(req,__filename,'table-date','date')%></td>
+                                    <td><%= translate(req,__filename,'table-setting','setting')%></td>
+                                </tr>
+                                <% articles.docs.forEach(article =>{ %>
+                                    <tr>
+                                        <td><img src="<%= article.image.url %>" alt="<%= article.image.alt %>" width="100px" height="50px"></td>
+                                        <td><%= article.title %></td>
+                                        <td><%= article.author.email %></td>
+                                        <td><%= article.viewCount %></td>
+                                        <td><%= Date(article.createdAt).format('D MMMM YYYY') %></td>
+                                        <td>
+                                            <form action="/articles/<%= article._id %>?_csrf=<%= req.csrfToken() %>&_method=DELETE"
+                                                   method="post">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/articles/<%= article._id %>/edit"
+                                                       class="btn btn-primary  <%= hasPermission(Option['permission'].add_files) %>"><%= translate(req,__filename,'table-edit','Edit')%></a>
+                                                    <button type="submit"
+                                                            class="btn btn-danger <%= hasPermission(Option['permission'].delete_files) %>">
+                                                        <%= translate(req,__filename,'table-delete','Delete') %>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <%- include(viewPath('layouts/admin/pagination') ,{ pagination : articles}) %>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<%- include(viewPath('layouts/sweet-alert'), {model:'delete',route:"/articles/"}) %>

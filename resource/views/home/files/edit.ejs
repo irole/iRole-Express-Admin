@@ -1,0 +1,118 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="card card-primary">
+
+            <div class="card-header">
+                <h3 class="card-title"><%= translate(req,__filename,'title','Edit File information') %></h3>
+            </div>
+            <form class="form-horizontal" action="/files/<%= file._id; %>/edit?_method=put" method="post"
+                  novalidate>
+                <input type="hidden" name="_csrf" value="<%= req.csrfToken(); %>">
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col text-center">
+                            <% let imageTypes = ['png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'svg', 'SVG']; %>
+                            <% let videoTypes = ['mkv', 'mp4', 'mpeg', 'MKV', 'MP4', 'MPEG']; %>
+                            <% let audioTypes = ['MP3', 'mp3', 'FLAC', 'flac', 'WAV', 'wav']; %>
+                            <% let documentTypes = ['doc', 'DOC', 'docx', 'DOCX', 'ppt', 'PPT', 'pptx', 'PPTX', 'txt', 'TXT', 'pdf', 'PDF']; %>
+                            <% let compressTypes = ['rar', 'RAR', 'zip', 'ZIP', '7z', '7Z']; %>
+                            <% if (imageTypes.includes(file.type)) { %>
+                                <img src="<%= file.url; %>" width="400px" height="200px">
+                            <% } if (videoTypes.includes(file.type)) { %>
+                                <video width="400" controls>
+                                    <source src="<%= file.url; %>" type="video/mp4">
+                                    Your browser does not support HTML video.
+                                </video>
+                            <% } if (audioTypes.includes(file.type)) { %>
+                                <audio controls>
+                                    <source src="<%= file.url; %>" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            <% }if (documentTypes.includes(file.type)) { %>
+                                <a href="<%= file.url; %>" download="<%= file.title; %>" class="text-dark no-underline">
+                                    <i class="fa fa-file fa-7x"></i>
+                                </a>
+                            <% }if (compressTypes.includes(file.type)) { %>
+                                <a href="<%= file.url; %>" download="<%= file.title; %>" class="text-dark no-underline">
+                                    <i class="fa fa-file-pdf fa-7x"></i>
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="title"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'file-title','File title :') %></label>
+                            <input type="text" class="form-control <%= isValid('title'); %>" name="title" id="title"
+                                   placeholder="<%= translate(req,__filename,'file-title-ph','please insert file title') %>"
+                                   value="<%= getInputValue('title', file.title); %>">
+                            <div class="invalid-feedback">
+                                <%= showError('title'); %>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="url"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'file-title','File URL :') %></label>
+                            <input type="text" class="form-control <%= isValid('url'); %>"
+                                   name="url"
+                                   id="url" value="<%= siteUrl; %><%= getInputValue('title', file.url); %>" disabled>
+                            <div class="invalid-feedback">
+                                <%= showError('url'); %>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="type"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'file-extention','File Extention :') %></label>
+                            <input style="direction: ltr" type="type" class="form-control" name="type" id="type"
+                                   value="<%= file.type; %>" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="shortDescription"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'file-short-description','Short Description :') %></label>
+                            <input type="text" class="form-control <%= isValid('shortDescription'); %>"
+                                   name="shortDescription"
+                                   id="shortDescription"
+                                   placeholder="<%= translate(req,__filename,'file-short-description-ph','Please Insert Short Description about File') %>"
+                                   value="<%= getInputValue('shortDescription', file.shortDescription); %>">
+                            <div class="invalid-feedback">
+                                <%= showError('shortDescription'); %>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="alt"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'file-alt','Replace Your alt :') %></label>
+                            <input type="text" class="form-control <%= isValid('alt'); %>" name="alt"
+                                   id="shortDescription"
+                                   placeholder="<%= translate(req,__filename,'file-alt-ph','Please Insert alt file') %>"
+                                   value="<%= getInputValue('alt', file.alt); %>">
+                            <div class="invalid-feedback">
+                                <%= showError('alt'); %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="description"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'file-description','Description :') %></label>
+                            <textarea rows="5" class="form-control <%= isValid('description'); %>" name="description"
+                                      id="description"
+                                      placeholder="<%= translate(req,__filename,'file-description-ph','Please Insert File Description') %>"><%= getInputValue('description', file.description); %></textarea>
+                            <div class="invalid-feedback">
+                                <%= showError('description'); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit"
+                            class="btn btn-warning"><%= translate(req,__filename,'file-update','Save and Update') %></button>
+                </div>
+            </form>
+
+        </div>
+    </div><!-- /.container-fluid -->
+</div>

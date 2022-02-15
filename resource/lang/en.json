@@ -1,0 +1,263 @@
+{
+	"app": {
+		"controllers": {
+			"home": {
+				"ArticleController": {
+					"page-title-index": "Articles"
+				},
+				"CategoryController": {
+					"page-title-index": "Categories"
+				},
+				"FileController": {
+					"page-title-index": "Files"
+				},
+				"RoleController": {
+					"destroy-text-sweetalert": "are you sure ? ",
+					"page-title-create": "Create Role",
+					"page-title-index": "Roles"
+				},
+				"UserController": {
+					"page-title-admin": "Admins",
+					"page-title-change-role": "Change user Role",
+					"page-title-create": "Create new User",
+					"page-title-index": "Users"
+				},
+				"PermissionController": {
+					"page-title-index": "Permissions"
+				}
+			},
+			"MasterController": {
+				"alert-delete-title": "Warning !",
+				"alert-delete-confirm-button": "yes",
+				"alert-delete-cancel-button": "cancel"
+			},
+			"auth": {
+				"LoginController": {
+					"page-title-index": "Login"
+				}
+			}
+		},
+		"validators": {
+			"public": {
+				"auth": {
+					"LoginValidator": {
+						"password-valid": "password must more than 8 characters"
+					},
+					"RegisterValidator": {
+						"email-exist": "this email registered before",
+						"password-valid": "password must more than 8 characters"
+					}
+				}
+			},
+			"private": {
+				"RoleValidator": {
+					"permissions": "you must choose permissions"
+				}
+			}
+		},
+		"middlewares": {
+			"ErrorHandling": {
+				"not-found": "Not Found !"
+			}
+		}
+	},
+	"resource": {
+		"views": {
+			"auth": {
+				"forgot-password": {
+					"email": "Email",
+					"enter-email": "Enter Email",
+					"page-title": "Forgot Password",
+					"submit": "Send Link"
+				},
+				"login": {
+					"dont-have-account": "Dont have Account?",
+					"email": "Email",
+					"enter-email": "Enter your Email",
+					"enter-password": "Enter your Password",
+					"forgot-password": "Forgot Password",
+					"google-sign-up": "Sign in with Google",
+					"login": "Login",
+					"page-title": "Login",
+					"password": "Password",
+					"register": "Register"
+				}
+			},
+			"home": {
+				"articles": {
+					"index": {
+						"create": "create new article",
+						"list-title": "Articles list",
+						"table-author": "author",
+						"table-date": "date",
+						"table-image": "image",
+						"table-setting": "setting",
+						"table-title": "title",
+						"table-viewCount": "view Count",
+						"title": "Articles"
+					}
+				},
+				"categories": {
+					"index": {
+						"create": "create new category",
+						"list-title": "category list",
+						"table-delete": "Delete",
+						"table-description": "Description",
+						"table-edit": "Edit",
+						"table-image": "Image",
+						"table-language": "Language",
+						"table-name": "Name",
+						"table-parent": "Parent",
+						"table-setting": "Setting",
+						"title": "category"
+					}
+				},
+				"files": {
+					"index": {
+						"create": "Upload new File",
+						"list-title": "File list",
+						"table-delete": "Delete",
+						"table-edit": "Edit",
+						"table-image": "Image",
+						"table-link": "Link",
+						"table-setting": "Setting",
+						"table-size": "Size",
+						"table-title": "Title",
+						"table-upload-date": "Upload Date",
+						"title": "file manager"
+					}
+				},
+				"roles": {
+					"create": {
+						"role-create": "Create",
+						"role-label": "Role Label :",
+						"role-label-ph": "Please Insert label of Role",
+						"role-lang": "Role Language :",
+						"role-name": "Role Name :",
+						"role-name-ph": "Please Insert Name of Role",
+						"role-permissions": "Role Permissions :",
+						"role-permissions-ph": "Please choose permissions of Role",
+						"title": "Add new Role"
+					},
+					"index": {
+						"create": "create new Role",
+						"list-title": "Role list",
+						"table-default-roles": "Default Roles",
+						"table-delete": "Delete",
+						"table-description": "Description",
+						"table-edit": "Edit",
+						"table-language": "Language",
+						"table-setting": "Setting",
+						"table-title": "Title",
+						"title": "Roles"
+					}
+				},
+				"users": {
+					"admins": {
+						"create": "create new User",
+						"list-title": "Admin list",
+						"table-change-role": "Change Role",
+						"table-email": "Email",
+						"table-register-date": "Register Date",
+						"table-setting": "Setting",
+						"title": "Admins"
+					},
+					"changerole": {
+						"change-role-Save": "Save",
+						"change-role-role": "Role :",
+						"change-role-user": "User :",
+						"title": "Change Role"
+					},
+					"create": {
+						"title": "Create new User",
+						"user-create": "Create User",
+						"user-email-ph": "Insert Email",
+						"user-password-ph": "Insert Password"
+					},
+					"index": {
+						"create": "create new User",
+						"list-title": "Users list",
+						"table-email": "Email",
+						"table-register-date": "Register Date",
+						"table-setting": "Setting",
+						"title": "Users"
+					}
+				},
+				"permissions": {
+					"index": {
+						"title": "Permissions",
+						"list-title": "Permissions list",
+						"table-title": "Title",
+						"table-description": "Description",
+						"table-group": "Group",
+						"table-setting": "Setting",
+						"table-default-permission": "Default Permission"
+					}
+				}
+			}
+		}
+	},
+	"typeScript": {
+		"app": {
+			"controllers": {
+				"installer-controller": {
+					"role": {
+						"owner": "owner",
+						"writer": "writer"
+					}
+				}
+			}
+		},
+		"option": {
+			"permissions": {
+				"groups": {
+					"articles": "Articles",
+					"backups": "Backups",
+					"categories": "Categories",
+					"comments": "Comments",
+					"files": "files",
+					"permissions": "Permissions",
+					"role": "Role",
+					"tickets": "Tickets",
+					"users": "Users"
+				},
+				"labels": {
+					"add-articles": "add articles",
+					"add-backups": "get backup form database",
+					"add-categories": "add categories",
+					"add-files": "add files",
+					"add-permissions": "add permissions",
+					"add-role-users": "add role for users",
+					"add-roles": "add roles",
+					"approved-comments": "approved/unapproved comments",
+					"ban-users": "ban users",
+					"create-users": "create users",
+					"delete-articles": "delete articles",
+					"delete-categories": "delete categories",
+					"delete-comments": "delete comments",
+					"delete-files": "delete files",
+					"delete-permissions": "delete permissions",
+					"delete-roles": "delete roles",
+					"download-backups": "download backups",
+					"edit-articles": "edit articles",
+					"edit-categories": "edit categories",
+					"edit-permissions": "edit permissions",
+					"edit-roles": "edit roles",
+					"reply-tickets": "reply tickets",
+					"restore-backups": "restore backups",
+					"show-articles": "show articles",
+					"show-backups": "show backups",
+					"show-categories": "show categories",
+					"show-comments": "show comments",
+					"show-files": "show files",
+					"show-permissions": "show permissions",
+					"show-roles": "show roles",
+					"show-tickets": "show tickets",
+					"show-users": "show users",
+					"toggle-admin-users": "add new admin",
+					"toggle-tickets": "open/close tickets"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,75 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><%= translate(req,__filename,'title','Edit Role') %></h3>
+            </div>
+            <form class="form-horizontal" action="/roles/<%= role.id %>?_method=put" method="post">
+                <input type="hidden" name="_csrf" value="<%= req.csrfToken() %>">
+
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="name"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'role-name','Role Name :') %></label>
+                            <input type="text" class="form-control <%= isValid('name') %>" name="name" id="name"
+                                   placeholder="<%= translate(req,__filename,'role-name-ph','Please Insert Name of Role') %>"
+                                   value="<%= getInputValue('name', role.name) %>">
+                            <div class="invalid-feedback">
+                                <%= showError('name') %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="label"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'role-label','Role Label :') %></label>
+                            <input type="text" class="form-control <%= isValid('label') %>" name="label" id="label"
+                                   placeholder="<%= translate(req,__filename,'role-label-ph','Please Insert label of Role') %>"
+                                   value="<%= getInputValue('label', role.label) %>">
+                            <div class="invalid-feedback">
+                                <%= showError('label') %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="lang"
+                                   class="control-label font-weight-bold font-weight-bold"><%= translate(req,__filename,'role-lang','Role Language :') %></label>
+                            <select name="lang" id="lang" class="form-control ">
+                                <% req.getLocales().forEach(locale => { %>
+                                    <option value="<%= locale %>" <%= role.lang === locale ? 'selected' : '' %>><%= locale %></option>
+                                <%})%>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="permissions"
+                                   class="control-label font-weight-bold font-weight-bold"><%= translate(req,__filename,'role-permissions','Role Permissions :') %></label>
+                            <select name="permissions" id="permissions" class="form-control form-control-chosen"
+                                    data-placeholder="<%= translate(req,__filename,'role-permissions-ph','Please choose permissions of Role') %>"
+                                    multiple>
+                                <% permissions.forEach(per => { %>
+                                    <option value="<%= per.id %>"<%= getInputValue('permissions', role.permissions).indexOf(per.id) !== -1 ? 'selected' : '' %> ><%= __(`typeScript.option.permissions.labels.${per.name}`) %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit"
+                            class="btn btn-danger"><%= translate(req,__filename,'role-update','Update') %></button>
+                </div>
+            </form>
+
+        </div>
+    </div><!-- /.container-fluid -->
+</div>
+<link rel="stylesheet" href="/dist/css/component-chosen.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.6/chosen.jquery.min.js"></script>
+<script>
+    $('.form-control-chosen').chosen({});
+</script>

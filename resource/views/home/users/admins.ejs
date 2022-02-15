@@ -1,0 +1,89 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><%= translate(req, __filename, 'title', 'Admins') ;%></h1>
+                </div>
+                <div class="col-sm-6 <%= hasPermission(Option['permission'].create_users) %>">
+                    <div class="btn-group float-sm-right">
+                        <a href="/users/create"
+                           class="btn btn-sm btn-primary"><%= translate(req, __filename, 'create', 'create new User') ;%></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><%= translate(req, __filename, 'list-title', 'Admin list') ;%></h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                           placeholder="Search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-center table-bordered">
+                                <tr>
+                                    <td><%= translate(req, __filename, 'table-email', 'Email') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-register-date', 'Register Date') ;%></td>
+                                    <td><%= translate(req, __filename, 'table-setting', 'Setting') ;%></td>
+                                </tr>
+                                <% users.docs.forEach(user => { %>
+                                    <tr>
+                                        <td><a href="/api/users/<%= user.username %>"><%= user.email %></a></td>
+                                        <td><%= Date(user.createdAt)
+                                                    .fromNow() %></td>
+                                        <td>
+                                            <% if (user.role && user.role['name'] === 'Owner' && !req.user.isOwner()){ %>
+                                                Access Denied
+                                            <% }else { %>
+                                                <form action="/users/<%= user.id %>?_method=put&_csrf=<%= req.csrfToken() %>"
+                                                      method="post">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="/users/<%= user.id %>/toggleadmin"
+                                                           class="btn btn-info <%= hasPermission(Option['permission'].toggle_admin_users) %>"><%= user.admin ? "remove admin" : "admin" %></a>
+                                                        <% if(user.admin) { %>
+                                                            <a href="/users/<%= user.id %>/change-role"
+                                                               class="btn btn-success <%= hasPermission(Option['permission'].add_role_users) %>">
+                                                                <%= translate(req, __filename, 'table-change-role', 'Change Role') ;%>
+                                                            </a>
+                                                        <% } %>
+                                                    </div>
+                                                </form>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <%- include(viewPath('layouts/admin/pagination') ,{ pagination : users}) %>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

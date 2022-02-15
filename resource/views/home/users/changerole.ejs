@@ -1,0 +1,41 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><%= translate(req,__filename,'title','Change Role') %></h3>
+            </div>
+
+            <form class="form-horizontal" action="/users/<%= user.id %>/change-role?_method=put" method="post">
+                <input type="hidden" name="_csrf" value="<%= req.csrfToken() %>">
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="name"
+                                   class="control-label font-weight-bold"><%= translate(req,__filename,'change-role-user','User :') %></label>
+                            <input type="text" class="form-control" name="name" id="name"
+                                   placeholder=""
+                                   value="<%= user.email %>" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="roles"
+                                   class="control-label font-weight-bold font-weight-bold"><%= translate(req,__filename,'change-role-role','Role :') %></label>
+                            <select name="roles" id="roles" class="form-control"
+                                    data-placeholder="">
+                                <% roles.forEach(role => { %>
+                                    <option value="<%= role.id %>"<%= user.role == role.id ? 'selected' : '' %> ><%= role.label %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary"><%= translate(req,__filename,'change-role-Save','Save') %></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
