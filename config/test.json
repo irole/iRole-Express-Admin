@@ -1,6 +1,6 @@
 {
   "DatabaseUrl": "mongodb://localhost:27017/iRole-Express-Admin-test",
   "Debug": true,
-  "ApplicationPort": 3002,
+  "ApplicationPort": 4002,
   "WebsiteUrl": "http://localhost:"
 }
