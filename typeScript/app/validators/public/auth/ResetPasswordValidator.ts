@@ -10,7 +10,7 @@ class ForgotPasswordValidator extends Validator {
     handle() {
         return [
             body('password')
-                .isLength({min: 2}).escape()
+                .isLength({min: 8}).escape()
                 .withMessage((value, {req, location, path}) => {
                     return translate(req,__filename,'password-valid','password must more than 8 characters');
                 }),
