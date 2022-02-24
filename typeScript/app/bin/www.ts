@@ -22,10 +22,9 @@ class Application {
             // @ts-ignore
             useNewUrlParser: true,
             useUnifiedTopology: true
-        })
-            .then(() => {
-                console.log('connect to mongoDb Database!');
-            });
+        }).then(() => {
+            console.log('connect to mongoDb Database!');
+        });
     }
 
     setServer() {
@@ -55,6 +54,7 @@ class Application {
         }
         return false;
     }
+
     /**
      * Event listener for HTTP server "error" event.
      */

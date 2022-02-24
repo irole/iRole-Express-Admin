@@ -1,5 +1,3 @@
-import express from 'express';
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
@@ -7,28 +5,11 @@ const uniqueString = require('unique-string');
 const mongoosePaginate = require('mongoose-paginate');
 
 const userSchema = Schema({
-    email: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    rememberToken: {
-        type: String,
-        default: null
-    },
-    admin: {
-        type: Boolean,
-        default: false
-    },
-    role: {
-        type: Schema.Types.ObjectId,
-        ref: 'Role',
-        default: null
-    },
+    email: {type: String, unique: true, required: true},
+    password: {type: String, required: true},
+    rememberToken: {type: String, default: null},
+    admin: {type: Boolean, default: false},
+    role: {type: Schema.Types.ObjectId, ref: 'Role', default: null},
 }, {
     timestamps: true,
     toJSON: {

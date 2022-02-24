@@ -41,7 +41,8 @@
 			"public": {
 				"auth": {
 					"LoginValidator": {
-						"password-valid": "password must more than 8 characters"
+						"password-valid": "password must more than 8 characters",
+						"email-validate": "email not valid"
 					},
 					"RegisterValidator": {
 						"email-exist": "this email registered before",
