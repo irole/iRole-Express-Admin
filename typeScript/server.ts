@@ -37,7 +37,7 @@ export class Server {
         //if (process.env.NODE_ENV === 'development') app.use(logger('dev'));
         // Passport
         require('./app/passport/passport-local');
-        require('./app/passport/passport-google');
+        //require('./app/passport/passport-google');
         // Enable Trust Proxy for web apps e.g. nginx
         // app.enable('trust proxy');
 
