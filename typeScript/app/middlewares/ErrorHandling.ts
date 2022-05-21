@@ -1,15 +1,16 @@
+import {logger} from "../helpers/logger";
+
 const config = require('config');
 // Middleware
 import Middleware from './Middleware';
 // Logger
-import logger from '../helpers/logger';
 import translate from "../helpers/translate";
 
 class ErrorHandling extends Middleware {
     // Define 404 Error
     error404(req: any, res: any, next: any) {
         try {
-            const error: any = new Error(translate(req,__filename,'not-found','Not Found !'));
+            const error: any = new Error(translate(req, __filename, 'not-found', 'Not Found !'));
             error.status = 404;
             throw error;
         } catch (e) {

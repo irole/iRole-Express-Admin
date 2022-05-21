@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import {Server, app} from '../../server';
+import {logger} from "../helpers/logger";
 
 const http = require('http');
 const config = require('config');
@@ -23,7 +24,7 @@ class Application {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).then(() => {
-            console.log('connect to mongoDb Database!');
+            logger.info('connect to mongoDb Database!');
         });
     }
 
@@ -33,7 +34,9 @@ class Application {
          * Create HTTP server.
          */
         this.server = http.createServer(app);
-        this.server.listen(process.env.PORT || this.port, () => console.log(`Listening on port ${this.port} Mode = ${process.env.NODE_ENV}`));
+        this.server.listen(process.env.PORT || this.port, () => {
+            logger.info(`Server listening on port: ${this.port} Mode = ${process.env.NODE_ENV}`);
+        });
         this.server.on('error', this.onError);
     }
 
