@@ -3,6 +3,8 @@ services:
   app:
     container_name: admin-template
     image: irolegroup/admin-express
+    environment:
+      - DatabaseUrl=mongodb://mongo:27017/iRole-Express-Admin
     restart: always
     build: .
     ports:
